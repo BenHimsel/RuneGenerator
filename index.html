@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/rune.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rune Generator</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <a href="https://benhimsel.github.io/rune/index.html" target="_blank">
+          <img src="./rune.svg" class="logo" alt="Rune Logo" />
+        </a>
+        <h1>Rune Generator</h1>
+        <div>
+          <label for="seed-input">Enter seed:</label>
+          <input
+            type="text"
+            id="seed-input"
+            name="seed-input"
+            value="my-seed-here-a"
+          />
+          <br />
+          <label for="rune-count-input">Rune count:</label>
+          <input
+            type="text"
+            id="rune-count-input"
+            name="rune-count-input"
+            value="36"
+          />
+          <br />
+          <label for="column-count-input">Number of Columns:</label>
+          <input
+            type="text"
+            id="column-count-input"
+            name="column-count-input"
+            value="6"
+          />
+        </div>
+        <div class="card">
+          <button id="generate" type="button">Generate</button>
+          <div class="card" id="rune-table"></div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
