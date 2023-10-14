@@ -14,7 +14,7 @@
         </a>
         <h1>Rune Generator</h1>
         <div>
-          <label for="seed-input">Enter seed:</label>
+          <label for="seed-input">Enter Table seed:</label>
           <input
             type="text"
             id="seed-input"
@@ -37,10 +37,20 @@
             name="column-count-input"
             value="6"
           />
+          <br />
+          <label id="rune-seed">Individual Rune seed:</label>
+          <input
+            type="text"
+            id="rune-seed-input"
+            name="rune-seed-input"
+            value=""
+          />
         </div>
         <div class="card">
-          <button id="generate" type="button">Generate</button>
-          <div class="card" id="rune-table"></div>
+          <button id="generate-table" type="button">Generate Table</button>
+          <div class="card" id="rune-table-div"></div>
+          <button id="generate-rune" type="button">Generate Rune</button>
+          <div class="card" id="rune-div"></div>
         </div>
       </div>
     </div>

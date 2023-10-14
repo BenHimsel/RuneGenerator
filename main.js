@@ -1,9 +1,13 @@
 import "./style.css";
-import { generateRuneTable } from "./rune-table.js";
+import { generateRuneTable, generateIndividualRune } from "./rune-table.js";
 
 document
-  .querySelector("#generate")
+  .querySelector("#generate-table")
   .addEventListener("click", () => generateRuneTable());
+
+document
+  .querySelector("#generate-rune")
+  .addEventListener("click", () => generateIndividualRune());
 
 document.querySelector("#seed-input").value = Math.floor(
   Math.random() * 100000000
