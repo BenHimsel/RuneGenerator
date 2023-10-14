@@ -9,12 +9,16 @@ export function poi(seed) {
       return 4;
     case poiRand >= 0.4 && poiRand < 0.85:
       return 5;
-    case poiRand >= 0.85 && poiRand < 1:
+    case poiRand >= 0.85 && poiRand < 0.95:
       return 6;
+    case poiRand >= 0.95 && poiRand < 1:
+      return 7;
     default:
       break;
   }
 }
+
+// Check for parallel
 
 // Build a set of Points of Interest, in a 3x5 grid expanded by 10 pixels with 5 pixels of padding
 export function generatePOISet(seed, count) {
@@ -26,10 +30,39 @@ export function generatePOISet(seed, count) {
     counter++;
     const innerRngX = seedrandom("poisaltx" + seed + counter);
 
-    const row = (Math.floor(innerRngX() * 100) % 3) * 10 + 5;
+    // init outside if blocks
+    let x = 5;
+    let y = 5;
+    // Count if a POI is on the leading edge or trailing edge
+    let xLead = 0;
+    let xTrail = 0;
+    // If the first POI, weight starting on leading or trailing edge
+    if (counter == 0) {
+      if (innerRngX < 0.6) {
+        x = 5;
+        xLead++;
+      } else if (innerRngX < 0.7 || innerRngX < 0.9) {
+        x = (count - 1) * 10 + 5;
+        xTrail++;
+      } else {
+        x = (Math.floor(innerRngX() * 100) % 3) * 10 + 5;
+      }
+      // If the last POI, weight filling a missing leading or trailing edge POI
+    } else if (counter == count - 1) {
+      if (xLead == 0) {
+        x = 5;
+      } else if (xLead != 0 && xTrail == 0) {
+        x = (count - 1) * 10 + 5;
+      } else {
+        x = (Math.floor(innerRngX() * 100) % 3) * 10 + 5;
+      }
+    } else {
+      x = (Math.floor(innerRngX() * 100) % 3) * 10 + 5;
+    }
+
     const innerRngY = seedrandom("poisalty" + seed + counter);
-    const col = (Math.floor(innerRngY() * 100) % 5) * 10 + 5;
-    const coordinate = [row, col];
+    y = (Math.floor(innerRngY() * 100) % 5) * 10 + 5;
+    const coordinate = [x, y];
 
     coordinates.add(JSON.stringify(coordinate));
   }
@@ -43,18 +76,42 @@ export function generatePOISet(seed, count) {
 
 // Does the path have a dot or skip a POI
 export function generateDotSkipIndex(seed, poiSet) {
-  let dotIndex = null;
-  let skipIndex = null;
-  if (poiSet.length > 4) {
-    const innerRngDot = seedrandom("dot" + seed);
-    const dotRand = innerRngDot();
-    if (dotRand < 0.6) {
+  let dotIndex = -1;
+  let skipIndex = -1;
+  const innerRngDot = seedrandom("dot" + seed);
+  const dotRand = innerRngDot();
+  // Never Dot / Skip 4's
+  // Seldomly Dot / Rarely Skip 5's
+  if (poiSet.length == 5) {
+    if (dotRand < 0.5) {
       dotIndex = Math.floor(dotRand * 10) % (poiSet.length - 1);
-    } else if (dotRand < 0.8 && dotRand >= 0.6) {
+    } else if (dotRand >= 0.5 && dotRand < 0.7) {
+      skipIndex = Math.floor(dotRand * 10) % (poiSet.length - 1);
+    }
+    // Often Dot / skip 6's
+  } else if (poiSet.length == 6) {
+    if (dotRand < 0.8) {
+      dotIndex = Math.floor(dotRand * 10) % (poiSet.length - 1);
+    } else if (dotRand >= 0.8 && dotRand < 0.95) {
+      skipIndex = Math.floor(dotRand * 10) % (poiSet.length - 1);
+    }
+    // Always skip or dot 7's
+  } else if (poiSet.length == 7) {
+    if (dotRand < 0.8) {
+      dotIndex = Math.floor(dotRand * 10) % (poiSet.length - 1);
+    } else {
       skipIndex = Math.floor(dotRand * 10) % (poiSet.length - 1);
     }
   }
-  return [dotIndex, skipIndex];
+
+  const dotSkipIndex = {
+    dot: dotIndex >= 0 ? true : false,
+    skip: skipIndex >= 0 ? true : false,
+    dotIndex: dotIndex,
+    skipIndex: skipIndex,
+  };
+
+  return dotSkipIndex;
 }
 
 export function generateExtraPathPOIs(seed, poiSet) {

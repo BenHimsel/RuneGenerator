@@ -27,13 +27,15 @@ export function createRuneSVG(seed) {
     // Make path or dot, depending on the dot/skip index
 
     // If it has a dot, and this the index of the dot, make the Dot
-    if (dotSkipIndex[0] && i == dotSkipIndex[0]) {
+    if (dotSkipIndex.dot && i == dotSkipIndex.dotIndex) {
       const runeDot = createRuneSVGDot(poiSet, i);
       runeSVGParent.appendChild(runeDot);
       // If it's around a dot or the skip, skip it
     } else if (
-      (dotSkipIndex[0] || dotSkipIndex[1]) &&
-      (i == dotSkipIndex[0] + 1 || i == dotSkipIndex[0] - 1 || dotSkipIndex[1])
+      (dotSkipIndex.dot || dotSkipIndex.skip) &&
+      (i == dotSkipIndex.dotIndex + 1 ||
+        i == dotSkipIndex.dotIndex - 1 ||
+        i == dotSkipIndex.skipIndex)
     ) {
       // If it has a dot and this is a path surrounding the dot, skip it
     } else {
@@ -64,7 +66,7 @@ export function createRuneSVG(seed) {
 
       // Make the paths to the destination POIs
       randomPathSubset.forEach((j) => {
-        if (!(j == dotSkipIndex[0] || j == dotSkipIndex)) {
+        if (!(j == dotSkipIndex.dot || j == dotSkipIndex.skip)) {
           const runePath = createRuneSVGPath(poiSet, i, j);
           runeSVGParent.appendChild(runePath);
         }
