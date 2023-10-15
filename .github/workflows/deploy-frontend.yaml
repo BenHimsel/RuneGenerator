@@ -55,4 +55,5 @@ jobs:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: BenHimsel/BenHimsel.github.io
           publish_branch: main
-          publish_dir: ./rune
+          publish_dir: ./
+          destination_dir: ./rune
