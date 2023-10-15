@@ -91,7 +91,7 @@ export function generateRuneTable() {
 }
 
 export function generateRuneListTable() {
-  const runListTextarea = document.getElementById("rune-list-textarea");
+  const runeListTextarea = document.getElementById("rune-list-textarea");
   const columnCountInput = document.getElementById("column-count-input");
   const runeTableDiv = document.getElementById("rune-table-div");
   const runeSeedInput = document.getElementById("rune-seed-input");
@@ -100,7 +100,7 @@ export function generateRuneListTable() {
   const runeTable = createRuneListTable(
     columnCount,
     "Generated Runes:",
-    runListTextarea,
+    runeListTextarea,
     runeSeedInput
   );
   runeTableDiv.appendChild(runeTable);

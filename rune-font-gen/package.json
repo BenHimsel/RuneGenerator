@@ -1,0 +1,27 @@
+{
+  "name": "rune-font-gen",
+  "version": "0.1.0",
+  "description": "generates runes from list of seeds",
+  "main": "main.mjs",
+  "scripts": {
+    "test": "rune-font-gen --test"
+  },
+  "bin": {
+    "rune-font-gen": "main.mjs"
+  },
+  "keywords": [
+    "runes",
+    "procgen"
+  ],
+  "author": "Ben Himsel",
+  "license": "MIT",
+  "dependencies": {
+    "@svgdotjs/svg.js": "^3.2.0",
+    "commander": "^11.1.0",
+    "figlet": "^1.6.0",
+    "seedrandom": "^3.0.5",
+    "svgdom": "^0.1.17",
+    "svgicons2svgfont": "^12.0.0"
+  },
+  "type": "module"
+}
