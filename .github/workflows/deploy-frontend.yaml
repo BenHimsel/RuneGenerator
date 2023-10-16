@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     tags:
-      - front-end/v**
+      - front-end-v**
 
 jobs:
   build:
